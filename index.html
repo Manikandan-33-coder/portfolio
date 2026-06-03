@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M Manikandan // Machine Learning Engineer Portfolio</title>
+  <meta name="description" content="Dark hacker-style portfolio for M Manikandan, Machine Learning Engineer." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Bebas+Neue&family=Oxanium:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#050608;
+      --bg2:#090b10;
+      --panel:#0b1016cc;
+      --panel2:#0f1620;
+      --line:#16303b;
+      --text:#d7fce3;
+      --muted:#8fa3a0;
+      --green:#39ff88;
+      --cyan:#32e6ff;
+      --amber:#ffbf4d;
+      --red:#ff5c76;
+      --shadow: 0 0 18px rgba(57,255,136,.12), 0 0 44px rgba(50,230,255,.08);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at top, rgba(50,230,255,.10), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(255,191,77,.09), transparent 18%),
+        linear-gradient(180deg, #040506 0%, #07090c 100%);
+      color:var(--text);
+      font-family:'JetBrains Mono', monospace;
+      overflow-x:hidden;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background: linear-gradient(rgba(255,255,255,.03), rgba(255,255,255,0) 50%);
+      background-size:100% 3px;
+      opacity:.11;
+      mix-blend-mode:screen;
+      z-index:1;
+    }
+    .scanlines{
+      position:fixed; inset:0;
+      pointer-events:none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.02) 0px,
+        rgba(255,255,255,.02) 1px,
+        transparent 1px,
+        transparent 4px
+      );
+      z-index:2;
+      opacity:.3;
+    }
+    .wrap{position:relative; z-index:3}
+    .container{width:min(1180px, calc(100% - 32px)); margin:0 auto}
+
+    /* Boot screen */
+    #bootScreen{
+      position:fixed; inset:0; z-index:50;
+      background: radial-gradient(circle at center, rgba(57,255,136,.08), transparent 45%), #010203;
+      color:var(--green);
+      display:flex; align-items:center; justify-content:center;
+      padding:24px;
+    }
+    .boot-card{
+      width:min(860px,100%);
+      border:1px solid rgba(57,255,136,.22);
+      border-radius:22px;
+      background: linear-gradient(180deg, rgba(10,15,12,.96), rgba(4,6,8,.96));
+      box-shadow: var(--shadow);
+      padding:26px;
+    }
+    .boot-head{
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      border-bottom:1px solid rgba(57,255,136,.15);
+      padding-bottom:12px; margin-bottom:16px;
+      font-size:12px; text-transform:uppercase; letter-spacing:.22em;
+      color:#9df8bf;
+    }
+    .boot-title{font-family:'Oxanium', sans-serif; font-size:28px; color:var(--cyan); margin:0 0 10px}
+    .boot-log{
+      font-size:13px; line-height:1.8; color:#bdf8d0;
+      min-height:220px;
+      white-space:pre-wrap;
+    }
+    .boot-bar{
+      margin-top:18px; height:14px; border-radius:999px;
+      border:1px solid rgba(57,255,136,.25); overflow:hidden;
+      background:#08110b;
+    }
+    .boot-bar span{
+      display:block; height:100%; width:0%;
+      background: linear-gradient(90deg, var(--green), var(--cyan), var(--amber));
+      box-shadow: 0 0 20px rgba(50,230,255,.35);
+      transition: width .12s linear;
+    }
+    .boot-fade{animation: fadeOut .7s ease forwards;}
+    @keyframes fadeOut{to{opacity:0; visibility:hidden}}
+
+    /* Navbar */
+    .navbar{
+      position:sticky; top:0; z-index:20;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, rgba(6,8,10,.88), rgba(6,8,10,.60));
+      border-bottom:1px solid rgba(57,255,136,.12);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; min-height:72px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text);
+      min-width:220px;
+    }
+    .chip{
+      width:42px; height:42px; border-radius:12px;
+      display:grid; place-items:center;
+      border:1px solid rgba(50,230,255,.25);
+      background: linear-gradient(180deg, rgba(10,18,26,.95), rgba(8,10,12,.95));
+      box-shadow: var(--shadow);
+      color:var(--cyan); font-family:'Oxanium', sans-serif; font-weight:800;
+    }
+    .brand strong{display:block; font-family:'Oxanium', sans-serif; letter-spacing:.08em}
+    .brand span{display:block; color:var(--muted); font-size:12px}
+    .nav-links{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+    }
+    .nav-links a{
+      color:#c9d9d5; text-decoration:none; font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+      padding:10px 12px; border-radius:999px; border:1px solid transparent;
+    }
+    .nav-links a:hover{border-color:rgba(57,255,136,.22); color:var(--green); background:rgba(57,255,136,.05)}
+    .clock{
+      font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+      padding:10px 12px; border:1px solid rgba(255,191,77,.22); border-radius:999px;
+      color:#ffdca0; background:rgba(255,191,77,.04);
+      white-space:nowrap;
+    }
+
+    /* Hero */
+    .hero{
+      padding:72px 0 36px;
+      display:grid; gap:20px;
+      grid-template-columns: 1.1fr .9fr;
+      align-items:center;
+    }
+    .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      font-size:12px; letter-spacing:.22em; text-transform:uppercase;
+      color:#9de9ff; margin-bottom:16px;
+    }
+    .eyebrow::before{
+      content:""; width:34px; height:1px; background:linear-gradient(90deg, var(--cyan), transparent);
+    }
+    .glitch{
+      position:relative;
+      font-family:'Bebas Neue', sans-serif;
+      font-size:clamp(4rem, 10vw, 7.5rem);
+      line-height:.9;
+      letter-spacing:.06em;
+      margin:0;
+      color:#effff4;
+      text-transform:uppercase;
+      text-shadow:0 0 22px rgba(57,255,136,.15);
+    }
+    .glitch::before,.glitch::after{
+      content:attr(data-text);
+      position:absolute; inset:0;
+      opacity:.75;
+    }
+    .glitch::before{transform:translate(2px,-1px); color:var(--cyan); clip-path: inset(0 0 58% 0)}
+    .glitch::after{transform:translate(-2px,1px); color:var(--amber); clip-path: inset(52% 0 0 0)}
+    .glitch span{color:var(--green)}
+    .hero p{
+      color:#c3d6d1; line-height:1.8; font-size:15px; max-width:62ch;
+    }
+    .hero-actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:22px}
+    .btn{
+      display:inline-flex; align-items:center; gap:10px;
+      text-decoration:none; color:var(--text);
+      padding:12px 16px; border-radius:14px;
+      border:1px solid rgba(57,255,136,.18); background:rgba(57,255,136,.05);
+      box-shadow: var(--shadow);
+      transition:transform .2s ease, border-color .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px); border-color:rgba(50,230,255,.28)}
+    .btn.secondary{border-color:rgba(255,191,77,.22); background:rgba(255,191,77,.05)}
+
+    .terminal{
+      border:1px solid rgba(57,255,136,.18);
+      background: linear-gradient(180deg, rgba(10,15,20,.92), rgba(7,9,12,.96));
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .terminal-head{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:14px 16px; border-bottom:1px solid rgba(57,255,136,.12);
+      background:rgba(255,255,255,.02);
+      font-size:12px; color:#9df8bf; letter-spacing:.16em; text-transform:uppercase;
+    }
+    .dots{display:flex; gap:7px}
+    .dots span{width:10px; height:10px; border-radius:50%}
+    .dots span:nth-child(1){background:#ff5c76}
+    .dots span:nth-child(2){background:#ffbf4d}
+    .dots span:nth-child(3){background:#39ff88}
+    .terminal-body{padding:18px; min-height:320px}
+    .term-line{margin:0 0 8px; white-space:pre-wrap}
+    .prompt{color:var(--green)}
+    .cmd{color:#e8fff0}
+    .out{color:#bde7ff}
+    .caret{
+      display:inline-block; width:8px; height:18px; background:var(--green);
+      vertical-align:-3px; margin-left:4px; animation:blink 1s steps(1) infinite;
+    }
+    @keyframes blink{50%{opacity:0}}
+
+    /* Sections */
+    section{padding:28px 0}
+    .section-title{
+      display:flex; align-items:end; justify-content:space-between; gap:16px; margin-bottom:18px;
+    }
+    .section-title h2{
+      margin:0; font-family:'Oxanium', sans-serif; letter-spacing:.08em; text-transform:uppercase;
+      font-size:clamp(1.45rem, 3vw, 2.2rem);
+    }
+    .section-title p{margin:0; color:var(--muted); font-size:13px}
+    .panel{
+      background: linear-gradient(180deg, rgba(11,16,22,.92), rgba(7,9,12,.94));
+      border:1px solid rgba(57,255,136,.12);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .stats{
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:14px;
+    }
+    .stat{
+      padding:18px; border-radius:18px; background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.05);
+    }
+    .stat strong{display:block; font-family:'Oxanium'; font-size:30px; color:var(--green)}
+    .stat span{display:block; margin-top:6px; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.16em}
+
+    .skills-grid{
+      display:grid; grid-template-columns: repeat(3, 1fr); gap:14px;
+    }
+    .skill-card{
+      padding:18px; border-radius:18px; min-height:160px;
+      border:1px solid rgba(50,230,255,.12); background:rgba(255,255,255,.02);
+    }
+    .skill-card h3{margin:0 0 10px; font-family:'Oxanium'; color:var(--cyan); letter-spacing:.06em}
+    .skill-card ul{margin:0; padding-left:18px; color:#dbe7e4; line-height:1.9; font-size:14px}
+
+    .timeline{padding:8px 0}
+    .timeline-item{
+      position:relative; padding:0 0 24px 28px; margin-left:14px;
+      border-left:1px solid rgba(57,255,136,.22);
+    }
+    .timeline-item::before{
+      content:""; position:absolute; left:-7px; top:5px; width:13px; height:13px; border-radius:50%;
+      background: radial-gradient(circle, var(--green), rgba(57,255,136,.25) 62%, transparent 66%);
+      box-shadow:0 0 14px rgba(57,255,136,.35);
+    }
+    .timeline-item:last-child{padding-bottom:0}
+    .timeline-item h3{margin:0; font-family:'Oxanium'; color:#effff4}
+    .timeline-item .meta{margin:6px 0 10px; color:var(--amber); font-size:12px; letter-spacing:.12em; text-transform:uppercase}
+    .timeline-item p{margin:0; color:#c7d6d2; line-height:1.8}
+
+    .projects-grid{
+      display:grid; grid-template-columns: repeat(2, 1fr); gap:14px;
+    }
+    .project-card{
+      padding:18px; border-radius:18px;
+      border:1px solid rgba(255,191,77,.12); background:rgba(255,255,255,.02);
+      position:relative; overflow:hidden;
+    }
+    .project-card::after{
+      content:""; position:absolute; inset:auto -20% -40% auto; width:180px; height:180px;
+      background:radial-gradient(circle, rgba(50,230,255,.12), transparent 60%);
+      pointer-events:none;
+    }
+    .project-card h3{margin:0 0 10px; font-family:'Oxanium'; color:#fff2d2; font-size:18px}
+    .project-card .tag{
+      display:inline-block; margin-bottom:12px; padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,191,77,.22); color:var(--amber); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+    }
+    .project-card p{margin:0 0 12px; color:#cad8d4; line-height:1.75; font-size:14px}
+    .tech-list{display:flex; flex-wrap:wrap; gap:8px}
+    .tech-list span{
+      padding:6px 10px; border-radius:999px; font-size:11px; letter-spacing:.06em;
+      border:1px solid rgba(57,255,136,.16); background:rgba(57,255,136,.05); color:#dfffea;
+    }
+
+    .contact-wrap{
+      display:grid; grid-template-columns: .9fr 1.1fr; gap:14px;
+    }
+    .contact-card{padding:18px; border-radius:18px}
+    .contact-card h3{margin:0 0 10px; font-family:'Oxanium'; color:var(--cyan)}
+    .contact-card p,.contact-card a{color:#d0dfdc; line-height:1.8; font-size:14px}
+    .contact-card a{color:var(--green); text-decoration:none}
+    .contact-card a:hover{text-decoration:underline}
+    .terminal-input{
+      display:flex; gap:10px; margin-top:14px; flex-wrap:wrap;
+    }
+    .terminal-input input{
+      flex:1 1 280px;
+      background:#06090d; color:#eafff0; border:1px solid rgba(57,255,136,.18);
+      border-radius:14px; padding:14px 16px; font:inherit; outline:none;
+    }
+    .terminal-input input:focus{border-color:rgba(50,230,255,.4); box-shadow:0 0 0 3px rgba(50,230,255,.08)}
+    .terminal-input button{
+      border:none; border-radius:14px; padding:14px 16px; font:inherit; cursor:pointer;
+      background:linear-gradient(90deg, rgba(57,255,136,.18), rgba(50,230,255,.18));
+      color:#ecfff2; border:1px solid rgba(57,255,136,.25);
+    }
+    .terminal-output{
+      margin-top:14px; min-height:170px; max-height:260px; overflow:auto;
+      padding:14px; border-radius:16px; background:#050709;
+      border:1px solid rgba(255,255,255,.06);
+      font-size:14px; line-height:1.7;
+    }
+    .line{margin:0 0 8px}
+    .line .who{color:var(--green)}
+    .line .sys{color:var(--cyan)}
+    .line .warn{color:var(--amber)}
+
+    footer{
+      padding:28px 0 40px; color:#8ea39f; font-size:12px; text-align:center;
+    }
+    .hidden{display:none !important}
+
+    @media (max-width: 980px){
+      .hero,.contact-wrap{grid-template-columns:1fr}
+      .stats,.skills-grid,.projects-grid{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 720px){
+      .nav-inner{flex-wrap:wrap; justify-content:center; padding:12px 0}
+      .brand{min-width:auto}
+      .nav-links{order:3; width:100%; overflow:auto; justify-content:flex-start; padding-bottom:4px}
+      .hero{padding-top:46px}
+      .stats,.skills-grid,.projects-grid{grid-template-columns:1fr}
+      .glitch{font-size:3.4rem}
+      .terminal-body{min-height:auto}
+    }
+  </style>
+</head>
+<body>
+  <div id="bootScreen" aria-label="boot sequence">
+    <div class="boot-card">
+      <div class="boot-head">
+        <div>System Boot</div>
+        <div id="bootPercent">00%</div>
+      </div>
+      <h1 class="boot-title">Initializing Manikandan OS...</h1>
+      <div class="boot-log" id="bootLog"></div>
+      <div class="boot-bar"><span id="bootBar"></span></div>
+    </div>
+  </div>
+  <div class="scanlines"></div>
+  <div class="wrap">
+    <header class="navbar">
+      <div class="container nav-inner">
+        <a class="brand" href="#home">
+          <div class="chip">M</div>
+          <div>
+            <strong>MANIKANDAN</strong>
+            <span>Machine Learning Engineer // v1.0</span>
+          </div>
+        </a>
+        <nav class="nav-links" aria-label="Primary">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#experience">Experience</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="clock" id="liveClock">00:00:00</div>
+      </div>
+    </header>
+
+    <main id="home" class="container">
+      <section class="hero">
+        <div>
+          <div class="eyebrow">Machine Learning Engineer // AI Systems Builder</div>
+          <h1 class="glitch" data-text="M MANIKANDAN"><span>M</span> MANIKANDAN</h1>
+          <p>
+            I build end-to-end machine learning products with clean data pipelines, model training,
+            Flask deployments, and real-time user interfaces. Focused on turning healthcare and analytics ideas into practical AI systems.
+          </p>
+          <div class="hero-actions">
+            <a class="btn" href="#projects">View Projects</a>
+            <a class="btn secondary" href="#contact">Open Terminal Contact</a>
+          </div>
+        </div>
+        <div class="terminal" aria-label="typing terminal">
+          <div class="terminal-head">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <div>SECURE SHELL / SYSTEM STATUS</div>
+            <div>ONLINE</div>
+          </div>
+          <div class="terminal-body">
+            <p class="term-line"><span class="prompt">root@manikandan-os</span>:<span class="cmd">~</span>$ <span id="typedText"></span><span class="caret"></span></p>
+            <p class="term-line out" id="termOutput"></p>
+            <p class="term-line out">> MCA 2024 | BCA 2022 | SIMBA PROJECTS</p>
+            <p class="term-line out">> Python • TensorFlow • Keras • Flask • SQLite • OpenCV</p>
+            <p class="term-line out">> Building predictive systems with real-world impact</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="section-title">
+          <h2>Profile Snapshot</h2>
+          <p>Education, focus, and a fast scan of my background.</p>
+        </div>
+        <div class="stats">
+          <div class="stat panel"><strong>2+</strong><span>Years in ML Engineering</span></div>
+          <div class="stat panel"><strong>2</strong><span>Academic Degrees</span></div>
+          <div class="stat panel"><strong>2</strong><span>Featured Projects</span></div>
+          <div class="stat panel"><strong>5+</strong><span>Core ML Stack Areas</span></div>
+        </div>
+      </section>
+
+      <section id="skills">
+        <div class="section-title">
+          <h2>Skills Matrix</h2>
+          <p>Tools I use to preprocess, train, analyze, and deploy.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card panel">
+            <h3>Programming & Data</h3>
+            <ul>
+              <li>Python (OOP)</li>
+              <li>NumPy, Pandas, Matplotlib</li>
+              <li>Data preprocessing & feature engineering</li>
+              <li>Exploratory data analysis</li>
+            </ul>
+          </article>
+          <article class="skill-card panel">
+            <h3>Machine Learning</h3>
+            <ul>
+              <li>Scikit-learn</li>
+              <li>TensorFlow, Keras</li>
+              <li>Classification and prediction models</li>
+              <li>Model evaluation and optimization</li>
+            </ul>
+          </article>
+          <article class="skill-card panel">
+            <h3>Deployment & Tools</h3>
+            <ul>
+              <li>Flask, SQLite, MySQL</li>
+              <li>OpenCV, pyttsx3</li>
+              <li>GitHub, Colab, VS Code, Jupyter</li>
+              <li>Web apps with real-time feedback</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="experience">
+        <div class="section-title">
+          <h2>Experience Timeline</h2>
+          <p>From academics to production-style ML delivery.</p>
+        </div>
+        <div class="panel" style="padding:20px 18px;">
+          <div class="timeline">
+            <div class="timeline-item">
+              <h3>Machine Learning Engineer — SIMBA PROJECTS</h3>
+              <div class="meta">May 2024 – Present</div>
+              <p>
+                Designed end-to-end ML solutions from requirement analysis and preprocessing to model training and deployment.
+                Worked with Python, TensorFlow, Keras, OpenCV, and scikit-learn to improve accuracy, performance, and usability.
+                Deployed Flask-based web applications with real-time predictions and user-friendly interfaces.
+              </p>
+            </div>
+            <div class="timeline-item">
+              <h3>Master of Computer Applications — CMS College of Science and Commerce</h3>
+              <div class="meta">2024 | CGPA 7.8</div>
+              <p>Strengthened foundations in AI, software development, and practical problem solving.</p>
+            </div>
+            <div class="timeline-item">
+              <h3>Bachelor of Computer Applications — Valluvar College of Science and Management</h3>
+              <div class="meta">2022 | CGPA 7.6</div>
+              <p>Built the base in programming, databases, and application development.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects">
+        <div class="section-title">
+          <h2>Projects Vault</h2>
+          <p>Healthcare-focused predictive systems with analytics and voice feedback.</p>
+        </div>
+        <div class="projects-grid">
+          <article class="project-card panel">
+            <div class="tag">Flagship Project</div>
+            <h3>Smart AI Healthcare Assistant for Early Disease Prediction</h3>
+            <p>
+              Built an AI-powered system to predict diabetes, heart, and liver diseases using medical parameters.
+              Integrated multiple ML models into a Flask web app with interactive charts, patient tracking,
+              and real-time voice feedback.
+            </p>
+            <div class="tech-list">
+              <span>Python</span><span>TensorFlow</span><span>scikit-learn</span><span>Flask</span><span>SQLite</span><span>pyttsx3</span><span>Pandas</span><span>Matplotlib</span>
+            </div>
+          </article>
+          <article class="project-card panel">
+            <div class="tag">Risk Analytics</div>
+            <h3>Patient Disease Prediction and Risk Assessment System</h3>
+            <p>
+              Developed a predictive analytics platform to assess disease risk from patient health parameters.
+              Compared Random Forest, Logistic Regression, and XGBoost, then delivered instant risk scores
+              through a Flask-based app for doctors and users.
+            </p>
+            <div class="tech-list">
+              <span>Python</span><span>scikit-learn</span><span>TensorFlow</span><span>Flask</span><span>SQLite</span><span>NumPy</span><span>Pandas</span><span>Matplotlib</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-title">
+          <h2>Contact Terminal</h2>
+          <p>Type a command and send a message through the interactive shell.</p>
+        </div>
+        <div class="contact-wrap">
+          <div class="contact-card panel">
+            <h3>Direct Access</h3>
+            <p><strong>Email:</strong> <a href="mailto:m.manikandan0112@gmail.com">m.manikandan0112@gmail.com</a></p>
+            <p><strong>Phone:</strong> <a href="tel:+919345180295">+91 93451 80295</a></p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/Manikandan-33-coder" target="_blank" rel="noreferrer">github.com/Manikandan-33-coder</a></p>
+            <p><strong>Objective:</strong> Machine Learning Engineer roles where I can build practical AI systems and collaborate with cross-functional teams.</p>
+            <div class="terminal-input">
+              <input id="cmdInput" type="text" placeholder="Type: help | email | github | hi | clear" autocomplete="off" />
+              <button id="sendBtn">EXECUTE</button>
+            </div>
+          </div>
+          <div class="contact-card panel">
+            <h3>Session Output</h3>
+            <div class="terminal-output" id="terminalOutput">
+              <p class="line"><span class="sys">system:</span> terminal ready.</p>
+              <p class="line"><span class="sys">system:</span> try <span class="warn">help</span> to see available commands.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      Crafted in a dark terminal aesthetic for M Manikandan // Machine Learning Engineer.
+    </footer>
+  </div>
+
+  <script>
+    // Boot screen animation
+    const bootScreen = document.getElementById('bootScreen');
+    const bootBar = document.getElementById('bootBar');
+    const bootPercent = document.getElementById('bootPercent');
+    const bootLog = document.getElementById('bootLog');
+    const bootMessages = [
+      '[OK] Power rail stable',
+      '[OK] GPU/CPU sync complete',
+      '[OK] Fonts loaded from secure channel',
+      '[OK] Portfolio modules detected',
+      '[OK] Resume data injected',
+      '[OK] Terminal interface online',
+      '[OK] UI encryption layer initialized',
+      '[OK] Launching user shell...'
+    ];
+    let bootProgress = 0;
+    let bootIndex = 0;
+    const bootTimer = setInterval(() => {
+      bootProgress += 2;
+      bootBar.style.width = bootProgress + '%';
+      bootPercent.textContent = String(bootProgress).padStart(2,'0') + '%';
+      if (bootIndex < bootMessages.length && bootProgress % 12 === 0) {
+        bootLog.textContent += bootMessages[bootIndex++] + '\n';
+      }
+      if (bootProgress >= 100) {
+        clearInterval(bootTimer);
+        setTimeout(() => {
+          bootScreen.classList.add('boot-fade');
+          setTimeout(() => bootScreen.remove(), 800);
+        }, 350);
+      }
+    }, 45);
+
+    // Live clock
+    const liveClock = document.getElementById('liveClock');
+    function updateClock() {
+      const now = new Date();
+      liveClock.textContent = now.toLocaleTimeString([], {
+        hour: '2-digit', minute: '2-digit', second: '2-digit'
+      });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Hero typing terminal
+    const typedText = document.getElementById('typedText');
+    const termOutput = document.getElementById('termOutput');
+    const phrases = [
+      'whoami',
+      'ls /skills',
+      'cat /projects/healthcare_ai.txt',
+      'deploy --flask --production'
+    ];
+    const outputs = [
+      'Manikandan | ML Engineer | AI Systems Builder',
+      'Python, TensorFlow, Keras, OpenCV, scikit-learn, Flask, SQLite',
+      'Healthcare prediction systems with real-time analytics and voice feedback',
+      'Deployment pipeline active: models, UI, and inference online'
+    ];
+    let p = 0, c = 0, deleting = false;
+    function typeLoop() {
+      const current = phrases[p];
+      typedText.textContent = current.slice(0, c);
+      if (!deleting) {
+        if (c < current.length) c++;
+        else {
+          termOutput.textContent = outputs[p];
+          deleting = true;
+          setTimeout(typeLoop, 1100);
+          return;
+        }
+      } else {
+        if (c > 0) c--;
+        else {
+          deleting = false;
+          p = (p + 1) % phrases.length;
+          termOutput.textContent = '';
+        }
+      }
+      setTimeout(typeLoop, deleting ? 28 : 75);
+    }
+    typeLoop();
+
+    // Contact terminal commands
+    const input = document.getElementById('cmdInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const output = document.getElementById('terminalOutput');
+    function addLine(html) {
+      const p = document.createElement('p');
+      p.className = 'line';
+      p.innerHTML = html;
+      output.appendChild(p);
+      output.scrollTop = output.scrollHeight;
+    }
+    function runCommand() {
+      const cmd = input.value.trim();
+      if (!cmd) return;
+      addLine('<span class="who">user@terminal:</span> ' + cmd.replace(/</g,'&lt;'));
+      const normalized = cmd.toLowerCase();
+      if (normalized === 'help') {
+        addLine('<span class="sys">system:</span> commands: help, email, github, phone, objective, clear, hi');
+      } else if (normalized === 'email') {
+        addLine('<span class="sys">system:</span> m.manikandan0112@gmail.com');
+      } else if (normalized === 'github') {
+        addLine('<span class="sys">system:</span> github.com/Manikandan-33-coder');
+      } else if (normalized === 'phone') {
+        addLine('<span class="sys">system:</span> +91 93451 80295');
+      } else if (normalized === 'objective') {
+        addLine('<span class="sys">system:</span> Seeking ML Engineer roles to build practical AI-driven solutions.');
+      } else if (normalized === 'hi' || normalized === 'hello') {
+        addLine('<span class="sys">system:</span> Access granted. Welcome, recruiter.');
+      } else if (normalized === 'clear') {
+        output.innerHTML = '<p class="line"><span class="sys">system:</span> terminal cleared.</p>';
+      } else {
+        addLine('<span class="warn">system:</span> unknown command. type <span class="warn">help</span>.');
+      }
+      input.value = '';
+    }
+    sendBtn.addEventListener('click', runCommand);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runCommand();
+    });
+  </script>
+</body>
+</html>
